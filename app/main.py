@@ -4,25 +4,12 @@ from fastapi import FastAPI, UploadFile
 from models import Transaction
 from accounting import Account
 
-"""
-import logging
-
-logger = logging.getLogger('uvicorn.access')
-handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
-
-logger.addHandler(handler)
-
-logger.setLevel(logging.DEBUG)
-"""
-# app = FastAPI()
 app = FastAPI(debug=True)
 account = Account()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Summer Break"}
+def hello():
+    return "hello"
 
 
 @app.post("/transactions")
@@ -48,14 +35,19 @@ async def submit_transactions(data: UploadFile):
         ValueError: if input is invalid
     """
     try:
+        hello()
         csv_reader = csv.DictReader(
             codecs.iterdecode(data.file, "utf-8"),
             fieldnames=["date", "xaction_type", "amount", "memo"],
         )
+        print("got here")
         for row in csv_reader:
+            print("maybe here")
             if not row["date"].startswith("#"):
                 xaction = Transaction.parse_obj(row)
+                print("just here")
                 account.submit_transaction(xaction)
+                print("now here")
     finally:
         data.file.close()
 

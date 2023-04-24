@@ -20,7 +20,7 @@ class Transaction(BaseModel):
         anystr_strip_whitespace = True
 
     @root_validator()
-    def check_income_positive(cls: ModelMetaclass, values: Dict[str, Any]):
+    def validate_income(cls: ModelMetaclass, values: Dict[str, Any]):
         """
         @param: cls
         instance of ModelMetaclass

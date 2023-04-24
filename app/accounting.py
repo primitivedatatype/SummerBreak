@@ -7,8 +7,6 @@ class Account:
         self.expense = 0
 
     def submit_transaction(self, xaction: Transaction):
-        print(f"here: {type(xaction)}")
-
         if xaction.xaction_type == TransactionType.income:
             self.revenue += xaction.amount
         elif xaction.xaction_type == TransactionType.expense:
