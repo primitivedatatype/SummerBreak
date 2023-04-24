@@ -1,12 +1,13 @@
-from models import TransactionType, Transaction 
+from models import TransactionType, Transaction
 
-class Account():
+
+class Account:
     def __init__(self):
         self.revenue = 0
         self.expense = 0
 
     def submit_transaction(self, xaction: Transaction):
-        print(f'here: {type(xaction)}')
+        print(f"here: {type(xaction)}")
 
         if xaction.xaction_type == TransactionType.income:
             self.revenue += xaction.amount
@@ -17,6 +18,5 @@ class Account():
         return {
             "gross-revenue": self.revenue,
             "expenses": self.expense,
-            "net-revenue": self.revenue - self.expense
+            "net-revenue": self.revenue - self.expense,
         }
-

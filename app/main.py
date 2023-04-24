@@ -15,13 +15,14 @@ logger.addHandler(handler)
 
 logger.setLevel(logging.DEBUG)
 """
-#app = FastAPI()
+# app = FastAPI()
 app = FastAPI(debug=True)
 account = Account()
 
+
 @app.get("/")
 async def root():
-    return { "message" : "Summer Break" }
+    return {"message": "Summer Break"}
 
 
 @app.post("/transactions")
@@ -29,7 +30,7 @@ async def submit_transactions(data: UploadFile):
     """
     Accepts, parses, and stores Income and Expense transactions.
 
-    UploadFile is FastAPI's subclass of SpooledTemporaryFile and it is suitable for handling lots of data without overwhelming memory. 
+    UploadFile is FastAPI's subclass of SpooledTemporaryFile and it is suitable for handling lots of data without overwhelming memory.
 
     This function uses a DictReader with Codecs.Iterdecode to convert the data into string format (rather than bytes). This technique was sourced from:
     https://stackoverflow.com/questions/70617121/how-to-upload-a-csv-file-in-fastapi-and-convert-it-into-json
@@ -48,8 +49,8 @@ async def submit_transactions(data: UploadFile):
     """
     try:
         csv_reader = csv.DictReader(
-            codecs.iterdecode(data.file, 'utf-8'),
-            fieldnames=["date","xaction_type","amount","memo"]
+            codecs.iterdecode(data.file, "utf-8"),
+            fieldnames=["date", "xaction_type", "amount", "memo"],
         )
         for row in csv_reader:
             if not row["date"].startswith("#"):
@@ -63,7 +64,7 @@ async def submit_transactions(data: UploadFile):
 async def get_report():
     """
     Generate a report of gross and net revenues, and expenses.
-    @return: json object containing: 
+    @return: json object containing:
         {
             "gross-revenue": <amount>,
             "expenses": <amount>,
@@ -71,4 +72,3 @@ async def get_report():
         }
     """
     return account.get_account_summary()
-
