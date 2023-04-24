@@ -10,4 +10,6 @@ RUN pip install --no-cache-dir --upgrade -r app/requirements.txt
 
 COPY app app
 
+COPY app/tests/test_main app/tests/test_main
+
 COPY app/tests app/tests

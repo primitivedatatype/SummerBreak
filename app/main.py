@@ -53,9 +53,7 @@ async def submit_transactions(data: UploadFile):
         )
         for row in csv_reader:
             if not row["date"].startswith("#"):
-                print(row)
                 xaction = Transaction.parse_obj(row)
-                print(xaction)
                 account.submit_transaction(xaction)
     finally:
         data.file.close()
