@@ -3,12 +3,12 @@ import pytest
 from models import TransactionType, Transaction
 
 
-def test_transaction_type_invalid():
+def test_transaction_type_invalid() -> None:
     with pytest.raises(ValueError):
         TransactionType(" Income")
 
 
-def test_validate_income_invalid_amount_negative():
+def test_validate_income_invalid_amount_negative() -> None:
     with pytest.raises(ValueError):
         Transaction(
             date="2000-01-01",
@@ -18,7 +18,7 @@ def test_validate_income_invalid_amount_negative():
         )
 
 
-def test_validate_transaction_invalid_amount_zero():
+def test_validate_transaction_invalid_amount_zero() -> None:
     with pytest.raises(ValueError):
         Transaction(
             date="2000-01-01",
@@ -28,7 +28,7 @@ def test_validate_transaction_invalid_amount_zero():
         )
 
 
-def test_validate_transaction_valid_xaction_type_format():
+def test_validate_transaction_valid_xaction_type_format() -> None:
     Transaction(
         date="2000-01-01",
         xaction_type=" Income",
@@ -37,7 +37,7 @@ def test_validate_transaction_valid_xaction_type_format():
     )
 
 
-def test_validate_transaction_invalid_date_format():
+def test_validate_transaction_invalid_date_format() -> None:
     with pytest.raises(ValueError):
         Transaction(
             date="01-01-2000",
@@ -47,7 +47,7 @@ def test_validate_transaction_invalid_date_format():
         )
 
 
-def test_validate_transaction_invalid_amount_format():
+def test_validate_transaction_invalid_amount_format() -> None:
     with pytest.raises(ValueError):
         Transaction(
             date="2000-01-01",

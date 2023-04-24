@@ -13,14 +13,14 @@ class TransactionType(str, Enum):
 class Transaction(BaseModel):
     date: datetime.date
     xaction_type: str
-    amount: float  # TODO: change this to use decimal
+    amount: float
     memo: str
 
     class Config:
         anystr_strip_whitespace = True
 
     @root_validator()
-    def validate_income(cls: ModelMetaclass, values: Dict[str, Any]):
+    def validate_income(cls: ModelMetaclass, values: Dict[str, Any]) -> Dict[str, Any]:
         """
         @param: cls
         instance of ModelMetaclass

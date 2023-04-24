@@ -1,23 +1,20 @@
 import csv
 import codecs
 from fastapi import FastAPI, UploadFile
+from typing import Dict 
 from models import Transaction
 from accounting import Account
 
-app = FastAPI(debug=True)
+app = FastAPI()
 account = Account()
 
 
-def hello():
-    return "hello"
-
-
 @app.post("/transactions")
-async def submit_transactions(data: UploadFile):
+async def submit_transactions(data: UploadFile) -> None:
     """
     Accepts, parses, and stores Income and Expense transactions.
 
-    UploadFile is FastAPI's subclass of SpooledTemporaryFile and it is suitable for handling lots of data without overwhelming memory.
+    UploadFile is FastAPI's subclass of SpooledTemporaryFile and it is suitable for handling lots of data with less memory resources needed.
 
     This function uses a DictReader with Codecs.Iterdecode to convert the data into string format (rather than bytes). This technique was sourced from:
     https://stackoverflow.com/questions/70617121/how-to-upload-a-csv-file-in-fastapi-and-convert-it-into-json
@@ -35,25 +32,20 @@ async def submit_transactions(data: UploadFile):
         ValueError: if input is invalid
     """
     try:
-        hello()
         csv_reader = csv.DictReader(
             codecs.iterdecode(data.file, "utf-8"),
             fieldnames=["date", "xaction_type", "amount", "memo"],
         )
-        print("got here")
         for row in csv_reader:
-            print("maybe here")
             if not row["date"].startswith("#"):
                 xaction = Transaction.parse_obj(row)
-                print("just here")
                 account.submit_transaction(xaction)
-                print("now here")
     finally:
         data.file.close()
 
 
 @app.get("/report")
-async def get_report():
+async def get_report() -> Dict[str, float]:
     """
     Generate a report of gross and net revenues, and expenses.
     @return: json object containing:

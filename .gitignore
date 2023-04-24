@@ -2,4 +2,6 @@
 app/__pycache__/
 __pycache__/
 appenv/
-
+app/.coverage
+app/tests/.coverage
+.coverage
